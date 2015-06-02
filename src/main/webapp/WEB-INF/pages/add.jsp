@@ -7,11 +7,9 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 </head>
 
-<table width="400px" align="center">
+<table width="80%" align="center">
     <tr>
-        <td><img src="http://redwerk.com/wp-content/themes/redwerk-nestor-child/img/redwerk_logo.png"></td>
-        <td><h4><a href="/com_company/"><b>MAIN</b></a></h4></td>
-        <td><h4><a href="/com_company/add"><b>ADD</b></a></h4></td>
+        <td align="left"><a href="/com_company/"><img src="http://redwerk.com/wp-content/themes/redwerk-nestor-child/img/redwerk_logo.png"></a></td>
     </tr>
 </table>
 <hr>

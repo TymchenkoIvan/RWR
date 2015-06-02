@@ -8,11 +8,10 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 </head>
 <body>
-<table width="400px" align="center">
+<table width="80%" align="center">
     <tr>
-        <td><img src="http://redwerk.com/wp-content/themes/redwerk-nestor-child/img/redwerk_logo.png"></td>
-        <td><h4><a href="/com_company/"><b>MAIN</b></a></h4></td>
-        <td><h4><a href="/com_company/add"><b>ADD</b></a></h4></td>
+        <td align="left"><a href="/com_company/"><img src="http://redwerk.com/wp-content/themes/redwerk-nestor-child/img/redwerk_logo.png"></a></td>
+        <td align="right"><a href="/com_company/delete?id=${candidate.id}"><img src="http://a.dryicons.com/images/icon_sets/grungy_aesthetica_icons_set/png/128x128/user_remove.png" width="64"></a></td>
     </tr>
 </table>
 <hr>

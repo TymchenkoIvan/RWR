@@ -12,7 +12,7 @@ public interface CandidateDAO {
     void sortByDate();
     void sortByName();
     void sortByPattern(String pattern);
-    void add(String firstName, String lastName, String interviewDate);
+  //  void add(String firstName, String lastName, String interviewDate);
     Candidate getById(int id);
     Candidate addAndGet(String firstName, String lastName, String interviewDate);
     void delete(int id);

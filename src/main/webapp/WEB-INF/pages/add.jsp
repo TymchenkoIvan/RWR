@@ -9,7 +9,7 @@
 
 <table width="80%" align="center">
     <tr>
-        <td align="left"><a href="/com_company/"><img src="http://redwerk.com/wp-content/themes/redwerk-nestor-child/img/redwerk_logo.png"></a></td>
+        <td align="left"><a title="Main page" href="/com_company/"><img src="http://redwerk.com/wp-content/themes/redwerk-nestor-child/img/redwerk_logo.png"></a></td>
     </tr>
 </table>
 <hr>
@@ -17,7 +17,7 @@
     <div class="container">
         <form role="form"  class="form-horizontal" action="/com_company/addCandidate" method="post">
             <table width="400px" align="center">
-                <thead><tr><th colspan="2"><center><h3>New candidate:</h3></center></th></tr></thead>
+                <thead><tr><th colspan="2"><center><h3><b>New candidate:</b></h3></center></th></tr></thead>
                 <tr>
                     <td><b>First name:* </b></td>
                     <td class="form-group"><input type="text" class="form-control" name="firstName" required placeholder="First name"></td>
@@ -31,7 +31,7 @@
                     <td class="form-group"><input type="date" class="form-control" name="interviewDate" required placeholder="2015.12.31"></td>
                 </tr>
 
-                <tr><th colspan="2"><center><h3>Contact info:</h3></center></th></tr>
+                <tr><th colspan="2"><center><h3><b>Contact info:</b></h3></center></th></tr>
 
                 <tr>
                     <td><b>tel:* </b></td>
@@ -54,7 +54,7 @@
                     <td class="form-group"><input type="text" class="form-control" name="contact2" placeholder="contact"></td>
                 </tr>
 
-                <tr><th colspan="2"><center><h3>Tech skills:</h3></center></th></tr>
+                <tr><th colspan="2"><center><h3><b>Tech skills:</b></h3></center></th></tr>
 
                 <tr>
                     <td class="form-group"><input type="text" class="form-control" name="skill_1" placeholder="skill"></td>

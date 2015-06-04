@@ -4,9 +4,7 @@ import com.company.entities.Candidate;
 
 import java.util.Comparator;
 
-/**
- *
- */
+
 public class CandidateDataComparator implements Comparator<Candidate> {
     @Override
     public int compare(Candidate first, Candidate second) {

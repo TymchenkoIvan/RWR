@@ -98,7 +98,6 @@ public class Candidate {
     public String toString(){
         StringBuilder builder = new StringBuilder();
 
-        builder.append(firstName+" ");
         builder.append(lastName+" ");
         for(Skill skill: getSkills()){
             builder.append(skill.getDescription()+" ");

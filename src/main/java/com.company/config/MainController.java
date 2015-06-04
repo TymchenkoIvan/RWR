@@ -9,9 +9,6 @@ import com.company.dao.ContactDAO;
 import com.company.dao.SkillDAO;
 import com.company.entities.Candidate;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,7 +20,7 @@ public class MainController {
     private static final String SKILL_PARAM = "skill_";
     private static final String RATE_PARAM = "rate";
     private static final int MAX_SKILLS = 10;
-    private static final int MAX_LIST = 7;
+    private static final int MAX_LIST = 20;
 
     @Autowired
     private CandidateDAO candidateDAO;
@@ -120,8 +117,7 @@ public class MainController {
     }
 
     @RequestMapping(value = "/addCandidate", method = RequestMethod.POST)
-    public ModelAndView addInfoTest(@RequestParam Map<String,String> params)
-    {
+    public ModelAndView addInfoTest(@RequestParam Map<String,String> params){
         // adding user
         Candidate c = candidateDAO.addAndGet(params.get("firstName"), params.get("lastName"), params.get("interviewDate"));
 

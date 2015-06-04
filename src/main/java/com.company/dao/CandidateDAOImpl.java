@@ -12,8 +12,20 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+
 /**
- * Created by tymchenkoivan on 27.05.2015.
+ * Class implements CandidateDAO.
+ * Here main application logic for working with entity Candidate from MainController. This DAO working with Hibernate, if something bad with
+ * connection you can check AppConfig and persistence.xml.
+ *
+ * Candidate and Contact relationship: One to Many.
+ * Candidate and Skill relationship: One to Many.
+ * Exception proceed here, not throws to MainController.
+ *
+ * Methods uses static ArrayList<Candidate> list, update and returns it's link to MainController.
+ *
+ *
+ * Created by tymchenkoivan on 30.05.2015.
  */
 public class CandidateDAOImpl implements CandidateDAO {
 
@@ -22,11 +34,26 @@ public class CandidateDAOImpl implements CandidateDAO {
     @Autowired
     private EntityManager entityManager;
 
+
+    /**
+     * Returns Candidate by id, using entityManager
+     *
+     * @param id takes candidate.id
+     * @return Candidate
+     */
     @Override
     public Candidate getById(int id) {
         return entityManager.find(Candidate.class, id);
     }
 
+
+    /**
+     * Returns static list from cash. It can be sorted by candidate.interviewDate, candidate.names and String. For more details
+     * look methods sortByDate(), sortByName(), sortByPattern() and package com.company.comparators.
+     * If list == null, method create list using method sortByDate().
+     *
+     * @return List<Candidate>
+     */
     @Override
     public List<Candidate> getList() {
         if(list == null){
@@ -35,6 +62,12 @@ public class CandidateDAOImpl implements CandidateDAO {
         return list;
     }
 
+
+    /**
+     * Method sorts and update static list using com.company.comparators.CandidateDataComparator. list updates from BD using
+     * entityManager. SortByDate() is default sorting.
+     *
+     */
     @Override
     public void sortByDate() {
         Query query = entityManager.createQuery("SELECT c FROM Candidate c", Candidate.class);
@@ -42,6 +75,12 @@ public class CandidateDAOImpl implements CandidateDAO {
         Collections.sort(list, new CandidateDataComparator());
     }
 
+
+    /**
+     * Method sorts and update static list using com.company.comparators.CandidateNameComparator. list updates from BD using
+     * entityManager. SortByName() is not default sorting.
+     *
+     */
     @Override
     public void sortByName() {
         Query query = entityManager.createQuery("SELECT c FROM Candidate c", Candidate.class);
@@ -49,6 +88,17 @@ public class CandidateDAOImpl implements CandidateDAO {
         Collections.sort(list, new CandidateNameComparator());
     }
 
+
+    /**
+     * Method sorts and update static list using String pattern. If (pattern == 0 && "".equals(pattern)) method will
+     * sort list by default sorting, using sortByDate().
+     *
+     * For difficult search user need to separate argument with " ". If argument ok, method will parse argument using .split(" ").
+     * After that it takes all Strings from array, and try find it in Candidate.toString() using toLowerCase().contains().
+     * Candidates takes from BD using entityManager, and only if Candidate.toString() contains ALL patterns in array Candidate wil be added to list.
+     *
+     * Candidate.toString() returns info about all candidate.skills and important candidate fields.
+     */
     @Override
     public void sortByPattern(String pattern) {
         if(pattern == null || "".equals(pattern)){
@@ -75,6 +125,19 @@ public class CandidateDAOImpl implements CandidateDAO {
         }
     }
 
+/*
+    /**
+     * Creates new Candidate and persist it into DB.
+     *
+     * If one of arguments is null, or empty("") Candidate don't creates, and method ==> return
+     * Also format.parse(interviewDate) can throw ParseException.
+     * During working with BD creates Transaction, if there arise Exception situation ==> Transaction().rollback().
+     *
+     *
+     * @param firstName String
+     * @param lastName String
+     * @param interviewDate String that must be converted to Date.
+     *//*
     @Override
     public void add(String firstName, String lastName, String interviewDate) {
         try {
@@ -98,7 +161,20 @@ public class CandidateDAOImpl implements CandidateDAO {
             ex.printStackTrace();
         }
     }
+*/
 
+    /**
+     * Creates and return new Candidate and persist it into DB.
+     *
+     * If one of arguments is null, or empty("") Candidate don't creates, and method ==> return
+     * Also format.parse(interviewDate) can throw ParseException.
+     * During working with BD creates Transaction, if there arise Exception situation ==> Transaction().rollback().
+     *
+     * @param firstName String
+     * @param lastName String
+     * @param interviewDate String that must be converted to Date.
+     * @return Candidate ==> new Candidate, or null
+     */
     @Override
     public Candidate addAndGet(String firstName, String lastName, String interviewDate) {
         Candidate candidate = null;
@@ -126,6 +202,13 @@ public class CandidateDAOImpl implements CandidateDAO {
         return candidate;
     }
 
+    /**
+     * Deletes Candidate from DB that found by id. Also will be deleted all entities that aggregated and mapped by
+     * Candidate(Skill and Contact), because cascade = CascadeType.ALL.
+     * During working with BD creates Transaction, if there arise Exception situation ==> Transaction().rollback().
+     *
+     * @param id int ==> Candidate.id
+     */
     @Override
     public void delete(int id) {
         try {

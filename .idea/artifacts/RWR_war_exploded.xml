@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="exploded-war" name="RWR:war exploded">
-    <output-path>$PROJECT_DIR$/out/artifacts/RWR_war_exploded</output-path>
+    <output-path>$PROJECT_DIR$/target/redwerk_recruting-1.0-SNAPSHOT</output-path>
     <root id="root">
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
@@ -35,10 +35,15 @@
           <element id="library" level="project" name="Maven: org.jboss:jandex:1.1.0.Final" />
           <element id="library" level="project" name="Maven: org.hibernate:hibernate-entitymanager:4.3.8.Final" />
           <element id="library" level="project" name="Maven: org.jboss.logging:jboss-logging:3.1.3.GA" />
+          <element id="library" level="project" name="Maven: org.apache.tomcat:tomcat-jsp-api:8.0.20" />
           <element id="library" level="project" name="Maven: org.apache.tomcat:tomcat-el-api:8.0.20" />
+          <element id="library" level="project" name="Maven: org.apache.tomcat:tomcat-servlet-api:8.0.20" />
           <element id="library" level="project" name="Maven: commons-io:commons-io:2.4" />
           <element id="library" level="project" name="Maven: org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.0.Final" />
         </element>
+      </element>
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/target/MANIFEST.MF" />
       </element>
       <element id="javaee-facet-resources" facet="RWR/web/Web" />
     </root>

@@ -13,6 +13,7 @@ Used technologies:
     Bootstrap
 
 3 web pages:
+
     main
         - you can see candidates list, sort them by name or by interview date
         - also you can search candidates

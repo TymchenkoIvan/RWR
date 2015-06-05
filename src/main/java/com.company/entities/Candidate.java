@@ -3,9 +3,7 @@ package com.company.entities;
 import javax.persistence.*;
 import java.util.*;
 
-/**
- * Created by tymchenkoivan on 25.05.2015.
- */
+
 @Entity
 @Table(name = "candidates")
 public class Candidate {
@@ -69,6 +67,11 @@ public class Candidate {
         return skills;
     }
 
+    /**
+     * Returns List<Skill> sorted by skill.rate. Biggest value at first and so on
+     *
+     * @return List <Skill>
+     */
     public List<Skill> getSortedSkills() {
         Collections.sort(skills);
         return skills;
@@ -94,13 +97,23 @@ public class Candidate {
         this.id = id;
     }
 
+    /**
+     * This method returns usefull info about Candidate, and contains lastName, firstName, all Candidates Skills and Contacts.
+     *
+     * @return String
+     */
     @Override
     public String toString(){
         StringBuilder builder = new StringBuilder();
 
         builder.append(lastName+" ");
+        builder.append(firstName+" ");
         for(Skill skill: getSkills()){
             builder.append(skill.getDescription()+" ");
+        }
+
+        for(Contact contact: getContacts()){
+            builder.append(contact.getDescription()+" ");
         }
         return builder.toString();
     }

@@ -22,13 +22,13 @@ public class SkillDAOImpl implements SkillDAO{
 
     /**
      * Creates new Skill and persist it into DB.
-     * During working with BD creates Transaction, if there arise Exception situation ==> Transaction().rollback().
-     * If one of arguments is null, or empty("") Candidate don't creates, and method ==> return
-     * Also skill.rate must be from 0 to 10, if not ==> return
+     * During working with BD creates Transaction, if there arise Exception situation will be Transaction().rollback().
+     * If one of arguments is null, or empty("") Candidate don't creates, and method will return
+     * Also skill.rate must be from 0 to 10, if not will return
      *
-     * @param candidate if null ==> return.
-     * @param description if null or "" ==> return.
-     * @param rate if null or "" or 0< rate >10 ==> return.
+     * @param candidate String
+     * @param description String
+     * @param rate String from "0" to "10"
      */
     @Override
     public void add(Candidate candidate, String description, String rate) {

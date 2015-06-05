@@ -22,12 +22,12 @@ public class ContactDAOImpl implements ContactDAO {
 
     /**
      * Creates new Contact and persist it into DB.
-     * During working with BD creates Transaction, if there arise Exception situation ==> Transaction().rollback().
-     * If one of arguments is null, or empty("") Candidate don't creates, and method ==> return
+     * During working with BD creates Transaction, if there arise Exception situation will be Transaction().rollback().
+     * If one of arguments is null, or empty("") Candidate don't creates, and method will return
      *
-     * @param candidate if null ==> return.
-     * @param description if null or "" ==> return.
-     * @param cont if null or "" ==> return.
+     * @param candidate String
+     * @param description String
+     * @param cont String
      */
     @Override
     public void add(Candidate candidate, String description, String cont) {

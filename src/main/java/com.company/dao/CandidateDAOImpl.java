@@ -38,7 +38,7 @@ public class CandidateDAOImpl implements CandidateDAO {
     /**
      * Returns Candidate by id, using entityManager
      *
-     * @param id takes candidate.id
+     * @param id int
      * @return Candidate
      */
     @Override
@@ -50,9 +50,9 @@ public class CandidateDAOImpl implements CandidateDAO {
     /**
      * Returns static list from cash. It can be sorted by candidate.interviewDate, candidate.names and String. For more details
      * look methods sortByDate(), sortByName(), sortByPattern() and package com.company.comparators.
-     * If list == null, method create list using method sortByDate().
+     * If list is not initialized, method create list using method sortByDate().
      *
-     * @return List<Candidate>
+     * @return List <Candidate>
      */
     @Override
     public List<Candidate> getList() {
@@ -97,7 +97,7 @@ public class CandidateDAOImpl implements CandidateDAO {
      * After that it takes all Strings from array, and try find it in Candidate.toString() using toLowerCase().contains().
      * Candidates takes from BD using entityManager, and only if Candidate.toString() contains ALL patterns in array Candidate wil be added to list.
      *
-     * Candidate.toString() returns info about all candidate.skills and important candidate fields.
+     * Candidate.toString() returns info about candidate and contains lastName, firstName, all Candidate Skills and Contacts.
      */
     @Override
     public void sortByPattern(String pattern) {
@@ -125,55 +125,18 @@ public class CandidateDAOImpl implements CandidateDAO {
         }
     }
 
-/*
-    /**
-     * Creates new Candidate and persist it into DB.
-     *
-     * If one of arguments is null, or empty("") Candidate don't creates, and method ==> return
-     * Also format.parse(interviewDate) can throw ParseException.
-     * During working with BD creates Transaction, if there arise Exception situation ==> Transaction().rollback().
-     *
-     *
-     * @param firstName String
-     * @param lastName String
-     * @param interviewDate String that must be converted to Date.
-     *//*
-    @Override
-    public void add(String firstName, String lastName, String interviewDate) {
-        try {
-            if(firstName == null || lastName == null || interviewDate == null){
-                throw new NullPointerException();
-            }
-            if("".equals(firstName) || "".equals(lastName) || "".equals(interviewDate)){
-                return;
-            }
-            DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
-            Date date = format.parse(interviewDate);
-            Candidate candidate = new Candidate(firstName, lastName, date);
-
-            entityManager.getTransaction().begin();
-            entityManager.persist(candidate);
-            entityManager.getTransaction().commit();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        } catch (Exception ex) {
-            entityManager.getTransaction().rollback();
-            ex.printStackTrace();
-        }
-    }
-*/
 
     /**
      * Creates and return new Candidate and persist it into DB.
      *
-     * If one of arguments is null, or empty("") Candidate don't creates, and method ==> return
+     * If one of arguments is null, or empty("") Candidate don't creates, and method will return
      * Also format.parse(interviewDate) can throw ParseException.
-     * During working with BD creates Transaction, if there arise Exception situation ==> Transaction().rollback().
+     * During working with BD creates Transaction, if there arise Exception situation will be Transaction().rollback().
      *
      * @param firstName String
      * @param lastName String
      * @param interviewDate String that must be converted to Date.
-     * @return Candidate ==> new Candidate, or null
+     * @return Candidate or null
      */
     @Override
     public Candidate addAndGet(String firstName, String lastName, String interviewDate) {
@@ -205,9 +168,9 @@ public class CandidateDAOImpl implements CandidateDAO {
     /**
      * Deletes Candidate from DB that found by id. Also will be deleted all entities that aggregated and mapped by
      * Candidate(Skill and Contact), because cascade = CascadeType.ALL.
-     * During working with BD creates Transaction, if there arise Exception situation ==> Transaction().rollback().
+     * During working with BD creates Transaction, if there arise Exception situation will be Transaction().rollback().
      *
-     * @param id int ==> Candidate.id
+     * @param id int Candidate.id
      */
     @Override
     public void delete(int id) {

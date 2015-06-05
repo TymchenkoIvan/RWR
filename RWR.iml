@@ -4,7 +4,7 @@
     <facet type="Spring" name="Spring">
       <configuration process_explicitly_annotated="false">
         <fileset id="fileset" name="Spring Application Context" removed="false">
-          <file>file://$MODULE_DIR$/src/main/java/ua.kiev.prog/config/AppConfig.java</file>
+          <file>file://$MODULE_DIR$/src/main/java/com.company/config/AppConfig.java</file>
         </fileset>
       </configuration>
     </facet>
@@ -24,7 +24,7 @@
           <deploymentDescriptor name="web.xml" url="file://$MODULE_DIR$/web/WEB-INF/web.xml" />
         </descriptors>
         <webroots>
-          <root url="file://$MODULE_DIR$/WebContent" relative="/" />
+          <root url="file://$MODULE_DIR$/src/main/webapp" relative="/" />
         </webroots>
       </configuration>
     </facet>

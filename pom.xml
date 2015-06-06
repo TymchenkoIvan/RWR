@@ -2,23 +2,47 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.redwerk</groupId>
-  <artifactId>redwerk_recruting</artifactId>
-  <version>1.0-SNAPSHOT</version>
-  <packaging>jar</packaging>
-
-  <name>redwerk_recruting</name>
-  <url>http://maven.apache.org</url>
+    <groupId>com.redwerk</groupId>
+    <artifactId>com_company</artifactId>
+    <version>1.0</version>
+    <packaging>war</packaging>
+    <name>com_company</name>
+    <url>http://maven.apache.org</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+      <maven.compiler.source>1.7</maven.compiler.source>
+      <maven.compiler.target>1.7</maven.compiler.target>
       <java.version>1.7</java.version>
       <spring.version>3.1.0.RELEASE</spring.version>
       <cglib.version>2.2.2</cglib.version>
   </properties>
-
-    <dependencies>
-        <!-- Spring core & mvc -->
+    <!--
+        <build>
+            <sourceDirectory>src</sourceDirectory>
+            <finalName>com_company</finalName>
+            <plugins>
+                <plugin>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.1</version>
+                    <configuration>
+                        <source>1.7</source>
+                        <target>1.7</target>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-war-plugin</artifactId>
+                    <version>2.4</version>
+                    <configuration>
+                        <warSourceDirectory>resources</warSourceDirectory>
+                        <failOnMissingWebXml>false</failOnMissingWebXml>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </build>
+-->
+        <dependencies>
+            <!-- Spring core & mvc -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>

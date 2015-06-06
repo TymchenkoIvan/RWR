@@ -26,5 +26,8 @@
         <module name="RWR" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="RWR" target="1.7" />
+    </bytecodeTargetLevel>
   </component>
 </project>

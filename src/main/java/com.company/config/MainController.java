@@ -31,6 +31,16 @@ public class MainController {
     private static final int MAX_SKILLS = 10;
     private static final int MAX_CANDIDATES_ON_PAGE = 20;
 
+    private ModelAndView listInfo(){
+        List<Candidate> list = candidateDAO.getList();
+        int pages = list.size()% MAX_CANDIDATES_ON_PAGE == 0 ? list.size()/ MAX_CANDIDATES_ON_PAGE : list.size()/ MAX_CANDIDATES_ON_PAGE +1;
+
+        Map<String, Object> model = new HashMap<>();
+        model.put("candidates", list.subList(0, Math.min(list.size(), MAX_CANDIDATES_ON_PAGE)));
+        model.put("pages", pages);
+        model.put("page", 1);
+        return new ModelAndView("index", model);
+    }
 
     /**
      * Method sorts List<Candidate> by Date using candidateDAO.sortByDate(), and returns index page with paging number 1.
@@ -42,14 +52,7 @@ public class MainController {
     public ModelAndView candidatesList() {
         candidateDAO.sortByDate();
 
-        List<Candidate> list = candidateDAO.getList();
-        int pages = list.size()% MAX_CANDIDATES_ON_PAGE == 0 ? list.size()/ MAX_CANDIDATES_ON_PAGE : list.size()/ MAX_CANDIDATES_ON_PAGE +1;
-
-        Map<String, Object> model = new HashMap<>();
-        model.put("candidates", list.subList(0, Math.min(list.size(), MAX_CANDIDATES_ON_PAGE)));
-        model.put("pages", pages);
-        model.put("page", 1);
-        return new ModelAndView("index", model);
+        return listInfo();
     }
 
 
@@ -72,11 +75,6 @@ public class MainController {
         return new ModelAndView("index", model);
     }
 
-    @RequestMapping("/index")
-    public String index() {
-        return "redirect: /";
-    }
-
 
     /**
      * Method sorts List<Candidate> by Name using candidateDAO.sortByName(), and returns index page with paging number 1.
@@ -87,15 +85,7 @@ public class MainController {
     public ModelAndView candidatesListByName() {
         candidateDAO.sortByName();
 
-        List<Candidate> list = candidateDAO.getList();
-        int pages = list.size()% MAX_CANDIDATES_ON_PAGE == 0 ?
-                list.size()/MAX_CANDIDATES_ON_PAGE : list.size()/ MAX_CANDIDATES_ON_PAGE +1;
-
-        Map<String, Object> model = new HashMap<>();
-        model.put("candidates", list.subList(0, Math.min(list.size(), MAX_CANDIDATES_ON_PAGE)));
-        model.put("pages", pages);
-        model.put("page", 1);
-        return new ModelAndView("index", model);
+        return listInfo();
     }
 
 
@@ -121,15 +111,7 @@ public class MainController {
 	public ModelAndView search(@RequestParam(value="pattern") String pattern) {
         candidateDAO.sortByPattern(pattern);
 
-        List<Candidate> list = candidateDAO.getList();
-        int pages = list.size()% MAX_CANDIDATES_ON_PAGE == 0 ?
-                list.size()/ MAX_CANDIDATES_ON_PAGE : list.size()/ MAX_CANDIDATES_ON_PAGE +1;
-
-        Map<String, Object> model = new HashMap<>();
-        model.put("candidates", list.subList(0, Math.min(list.size(), MAX_CANDIDATES_ON_PAGE)));
-        model.put("pages", pages);
-        model.put("page", 1);
-        return new ModelAndView("index", model);
+        return listInfo();
 	}
 
 
@@ -144,15 +126,7 @@ public class MainController {
 	public ModelAndView delete(@RequestParam(value="id") int id) {
         candidateDAO.delete(id);
 
-        List<Candidate> list = candidateDAO.getList();
-        int pages = list.size()% MAX_CANDIDATES_ON_PAGE == 0 ?
-                list.size()/ MAX_CANDIDATES_ON_PAGE : list.size()/ MAX_CANDIDATES_ON_PAGE +1;
-
-        Map<String, Object> model = new HashMap<>();
-        model.put("candidates", list.subList(0, Math.min(list.size(), MAX_CANDIDATES_ON_PAGE)));
-        model.put("pages", pages);
-        model.put("page", 1);
-        return new ModelAndView("index", model);
+        return listInfo();
 	}
 
 
@@ -207,15 +181,6 @@ public class MainController {
             }
         }
 
-        List<Candidate> list = candidateDAO.getList();
-
-        int pages = list.size()% MAX_CANDIDATES_ON_PAGE == 0 ?
-                list.size()/ MAX_CANDIDATES_ON_PAGE : list.size()/ MAX_CANDIDATES_ON_PAGE +1;
-
-        Map<String, Object> model = new HashMap<>();
-        model.put("candidates", list.subList(0, Math.min(list.size(), MAX_CANDIDATES_ON_PAGE)));
-        model.put("pages", pages);
-        model.put("page", 1);
-        return new ModelAndView("index", model);
+        return listInfo();
     }
 }

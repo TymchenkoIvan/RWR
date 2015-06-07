@@ -132,6 +132,7 @@ public class CandidateDAOImpl implements CandidateDAO {
      * If one of arguments is null, or empty("") Candidate don't creates, and method will return
      * Also format.parse(interviewDate) can throw ParseException.
      * During working with BD creates Transaction, if there arise Exception situation will be Transaction().rollback().
+     * list will be updated.
      *
      * @param firstName String
      * @param lastName String
@@ -161,7 +162,7 @@ public class CandidateDAOImpl implements CandidateDAO {
             entityManager.getTransaction().rollback();
             ex.printStackTrace();
         }
-
+        sortByDate();
         return candidate;
     }
 
@@ -169,6 +170,7 @@ public class CandidateDAOImpl implements CandidateDAO {
      * Deletes Candidate from DB that found by id. Also will be deleted all entities that aggregated and mapped by
      * Candidate(Skill and Contact), because cascade = CascadeType.ALL.
      * During working with BD creates Transaction, if there arise Exception situation will be Transaction().rollback().
+     * list will be updated.
      *
      * @param id int Candidate.id
      */
@@ -179,6 +181,7 @@ public class CandidateDAOImpl implements CandidateDAO {
             Candidate candidate = entityManager.find(Candidate.class, id);
             entityManager.remove(candidate);
             entityManager.getTransaction().commit();
+            sortByDate();
         } catch (Exception ex) {
             entityManager.getTransaction().rollback();
             ex.printStackTrace();

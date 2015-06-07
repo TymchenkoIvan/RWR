@@ -39,7 +39,7 @@ public class SkillDAOImpl implements SkillDAO{
             if("".equals(description) || "".equals(rate)){
                 return;
             }
-            if(Integer.parseInt(rate)<0 || Integer.parseInt(rate)>0){
+            if(Integer.parseInt(rate)<0 || Integer.parseInt(rate)>10){
                 return;
             }
             Skill skill = new Skill(candidate, description, Integer.parseInt(rate));

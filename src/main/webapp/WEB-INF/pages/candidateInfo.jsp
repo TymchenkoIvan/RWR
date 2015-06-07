@@ -10,8 +10,8 @@
 <body>
 <table width="80%" align="center">
     <tr>
-        <td align="left"><a title="Main page" href="/com_company/"><img src="http://redwerk.com/wp-content/themes/redwerk-nestor-child/img/redwerk_logo.png"></a></td>
-        <td align="right"><a title="Delete this candidate" href="/com_company/delete?id=${candidate.id}"><img src="http://a.dryicons.com/images/icon_sets/grungy_aesthetica_icons_set/png/128x128/user_remove.png" width="64"></a></td>
+        <td align="left"><a title="Main page" href="../com_company/"><img src="http://redwerk.com/wp-content/themes/redwerk-nestor-child/img/redwerk_logo.png"></a></td>
+        <td align="right"><a title="Delete this candidate" href="../com_company/delete?id=${candidate.id}"><img src="http://a.dryicons.com/images/icon_sets/grungy_aesthetica_icons_set/png/128x128/user_remove.png" width="64"></a></td>
     </tr>
 </table>
 <hr>

@@ -9,13 +9,13 @@
 
 <table width="80%" align="center">
     <tr>
-        <td align="left"><a title="Main page" href="/com_company/"><img src="http://redwerk.com/wp-content/themes/redwerk-nestor-child/img/redwerk_logo.png"></a></td>
+        <td align="left"><a title="Main page" href="../com_company/"><img src="http://redwerk.com/wp-content/themes/redwerk-nestor-child/img/redwerk_logo.png"></a></td>
     </tr>
 </table>
 <hr>
 <body>
     <div class="container">
-        <form role="form"  class="form-horizontal" action="/com_company/addCandidate" method="post">
+        <form role="form"  class="form-horizontal" action="../com_company/addCandidate" method="post">
             <table width="400px" align="center">
                 <thead><tr><th colspan="2"><center><h3><b>New candidate:</b></h3></center></th></tr></thead>
                 <tr>

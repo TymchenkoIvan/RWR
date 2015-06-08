@@ -1,0 +1,15 @@
+Впервые столкнулся с файлами .war и с вопросом разыертывания приложения на другом компьютере. 
+Поскольку файл persistence.xml, с настройками подклбчение, должен находиться в .war файле, вот мои рекомендации: 
+
+
+1 - используя .sql скрипт создать БД ..\com_company-1.0\WEB-INF\classes\META-INF\script.sql
+
+2 - подключение к MySQL серверу:
+	в файле ..\com_company-1.0\WEB-INF\classes\META-INF\persistence.xml
+	изменить информацию о подключении, в этих строках:
+		<property name="javax.persistence.jdbc.user" value="***" />
+		<property name="javax.persistence.jdbc.password" value="***" />
+
+3 - запустить с помощью Tomcat(не оябзательно)
+
+4 - перейти по ссылке http://localhost:8080/com_company-1.0/com_company/

@@ -25,5 +25,5 @@ Used technologies:
     candidateInfo
         - you cam find all important info about candidate
         - tou can delete him from site and database
-        
+
 use how_to_start.txt for deploying

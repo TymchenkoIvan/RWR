@@ -16,6 +16,7 @@
 </table>
 <hr>
  <div class="container">
+     <p align="center" style="color:rgba(134, 3, 1, 0.73); font-size:15px">${error}</p>
      <c:set var="candidate" value="${candidate}" scope="page"/>
      <table align="center" class="table table-condensed" style="width: 400px;">
          <thead>

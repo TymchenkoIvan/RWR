@@ -72,4 +72,28 @@ public class Skill implements Comparable<Skill>{
     public void setRate(int rate) {
         this.rate = rate;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Skill)) return false;
+
+        Skill skill = (Skill) o;
+
+        if (id != skill.id) return false;
+        if (rate != skill.rate) return false;
+        if (candidate != null ? !candidate.equals(skill.candidate) : skill.candidate != null) return false;
+        if (description != null ? !description.equals(skill.description) : skill.description != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + (candidate != null ? candidate.hashCode() : 0);
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + rate;
+        return result;
+    }
 }

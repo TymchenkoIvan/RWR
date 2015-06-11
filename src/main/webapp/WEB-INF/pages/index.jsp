@@ -20,6 +20,7 @@
 </table>
 <hr>
     <div class="container">
+        <p align="center" style="color:rgba(134, 3, 1, 0.73); font-size:15px">${error}</p>
         <table class="table table-striped">
             <thead>
             <tr>
@@ -48,7 +49,7 @@
                             <li class="active"><a href="../com_company/paging?page=${i}">${i}</a></li>
                         </c:when>
                         <c:otherwise>
-                            <li><a href="../com_company/paging?page=${i}">${i}</a></li>
+                            <li><a href="../com_company/paging?page=${i}&sort=${sort}">${i}</a></li>
                         </c:otherwise>
                     </c:choose>
                 </c:forEach>

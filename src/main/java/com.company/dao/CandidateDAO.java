@@ -6,11 +6,13 @@ import java.util.List;
 
 
 public interface CandidateDAO {
-    List<Candidate> getList();
-    void sortByDate();
-    void sortByName();
-    void sortByPattern(String pattern);
+
     Candidate getById(int id);
-    Candidate addAndGet(String firstName, String lastName, String interviewDate);
-    void delete(int id);
+    Candidate addAndGet(String firstName, String lastName, String interviewDate) throws Exception;
+    void delete(int id) throws Exception;
+    int getCandidatesCount();
+    int getCandidatesCount(String pattern);
+    List<Candidate> sortedByDate(int page);
+    List<Candidate> sortedByName(int page);
+    List<Candidate> sortedByPattern(String pattern, int page);
 }

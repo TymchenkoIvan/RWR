@@ -15,6 +15,7 @@
 <hr>
 <body>
     <div class="container">
+        <p align="center" style="color:rgba(134, 3, 1, 0.73); font-size:15px">${error}</p>
         <form role="form"  class="form-horizontal" action="../com_company/addCandidate" method="post">
             <table width="400px" align="center">
                 <thead><tr><th colspan="2"><center><h3><b>New candidate:</b></h3></center></th></tr></thead>
@@ -34,24 +35,24 @@
                 <tr><th colspan="2"><center><h3><b>Contact info:</b></h3></center></th></tr>
 
                 <tr>
-                    <td><b>tel:* </b></td>
-                    <td class="form-group"><input type="text" class="form-control" name="telephone" required placeholder="+38 050 123-45-67"></td>
-                </tr>
-                <tr>
                     <td><b>e-mail:* </b></td>
                     <td class="form-group"><input type="email" class="form-control" name="mail" required placeholder="mail@mail.com"></td>
                 </tr>
                 <tr>
-                    <td><b>skype: </b></td>
-                    <td class="form-group"><input type="text" class="form-control" name="skype" placeholder="skype"></td>
+                    <td class="form-group"><input type="text" class="form-control" name="type1" value="telephone"></td>
+                    <td class="form-group"><input type="text" class="form-control" name="value1" placeholder="+38 050 123-45-67"></td>
                 </tr>
                 <tr>
-                    <td class="form-group"><input type="text" class="form-control" name="other1" placeholder="other type"></td>
-                    <td class="form-group"><input type="text" class="form-control" name="contact1" placeholder="contact"></td>
+                    <td class="form-group"><input type="text" class="form-control" name="type2" value="skype"></td>
+                    <td class="form-group"><input type="text" class="form-control" name="value2" placeholder="skype"></td>
                 </tr>
                 <tr>
-                    <td class="form-group"><input type="text" class="form-control" name="other2" placeholder="other type"></td>
-                    <td class="form-group"><input type="text" class="form-control" name="contact2" placeholder="contact"></td>
+                    <td class="form-group"><input type="text" class="form-control" name="type3" placeholder="additional"></td>
+                    <td class="form-group"><input type="text" class="form-control" name="value3" placeholder="contact"></td>
+                </tr>
+                <tr>
+                    <td class="form-group"><input type="text" class="form-control" name="type4" placeholder="additional"></td>
+                    <td class="form-group"><input type="text" class="form-control" name="value4" placeholder="contact"></td>
                 </tr>
 
                 <tr><th colspan="2"><center><h3><b>Tech skills:</b></h3></center></th></tr>

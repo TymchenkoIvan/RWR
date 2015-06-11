@@ -5,12 +5,13 @@ import com.company.entities.Candidate;
 import com.company.entities.Contact;
 
 import javax.persistence.EntityManager;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Class implements ContactDAO.
  * Here main application logic for working with entity Contact from MainController. This DAO working with Hibernate, if something bad with
  * connection you can check AppConfig and persistence.xml. Candidate and Contact relationship: One to Many.
- * Exception proceed here, not throws to MainController.
  *
  *
  * Created by tymchenkoivan on 30.05.2015.
@@ -46,5 +47,19 @@ public class ContactDAOImpl implements ContactDAO {
             entityManager.getTransaction().rollback();
             ex.printStackTrace();
         }
+    }
+
+    /**
+     * Method checks mail address using regex pattern
+     *
+     * @param mail String
+     * @return boolean
+     */
+    @Override
+    public boolean isMailReal(String mail) {
+        Pattern pattern = Pattern.compile(EMAIL_PATTERN);
+        Matcher matcher = pattern.matcher(mail);
+
+        return matcher.matches();
     }
 }

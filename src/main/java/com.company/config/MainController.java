@@ -31,12 +31,19 @@ public class MainController {
     @Autowired
     private SkillDAO skillDAO;
 
+    //vars user in form
     public static final String SKILL_PARAM_PATTERN = "skill_";
     public static final String SKILL_RATE_PATTERN = "rate";
     public static final String CONTACT_MAIL_PATTERN = "mail";
     public static final String CONTACT_TYPE_PATTERN = "type";
     public static final String CONTACT_VALUE_PATTERN = "value";
-    public static final String ERROR = "error";
+    //vars used in .jsp pages
+    public static final String ERROR_VAR = "error";
+    public static final String PAGES_VAR = "pages";
+    public static final String PAGE_VAR = "page";
+    public static final String SORT_VAR = "sort";
+    public static final String CANDIDATE_VAR = "candidates";
+    //important settings used in GUI
     public static final int MAX_SKILLS = 10;
     public static final int MAX_CONTACTS = 4;
     public static final int MAX_CANDIDATES_ON_PAGE = 5;
@@ -60,8 +67,8 @@ public class MainController {
      * @return ModelAndView
      */
     @RequestMapping(value = "/paging", method = RequestMethod.GET)
-    public ModelAndView paging(@RequestParam(value="page") int page,
-                               @RequestParam(value="sort") String sort) {
+    public ModelAndView paging(@RequestParam(value=PAGE_VAR) int page,
+                               @RequestParam(value=SORT_VAR) String sort) {
         return getModel(sort, page);
     }
 
@@ -133,7 +140,7 @@ public class MainController {
     public ModelAndView info(@RequestParam(value="id") int id) {
         Map<String, Object> model = new HashMap<>();
         try {
-            model.put("candidate", candidateDAO.getById(id));
+            model.put(CANDIDATE_VAR, candidateDAO.getById(id));
         } catch (Exception e){
             return getModelError(INFO.getAddress(), e.toString());
         }
@@ -160,7 +167,7 @@ public class MainController {
                 contactDAO.add(c, CONTACT_MAIL_PATTERN, params.get(CONTACT_MAIL_PATTERN));
             } else {
                 candidateDAO.delete(c.getId());
-                throw new IllegalStateException("Wrong Mail");
+                throw new IllegalStateException("Wrong mail");
             }
         } catch (Exception e) {
             return getModelError(ADD.getAddress(), e.toString());
@@ -212,17 +219,17 @@ public class MainController {
         try {
             Map<String, Object> model = new HashMap<>();
             if (BY_NAME.name().equals(sort)) {
-                model.put("candidates", candidateDAO.sortedByName(page));
-                model.put("pages", getPagesCount(candidateDAO.getCandidatesCount()));
+                model.put(CANDIDATE_VAR, candidateDAO.sortedByName(page));
+                model.put(PAGES_VAR, getPagesCount(candidateDAO.getCandidatesCount()));
             } else if (BY_DATE.name().equals(sort)) {
-                model.put("candidates", candidateDAO.sortedByDate(page));
-                model.put("pages", getPagesCount(candidateDAO.getCandidatesCount()));
+                model.put(CANDIDATE_VAR, candidateDAO.sortedByDate(page));
+                model.put(PAGES_VAR, getPagesCount(candidateDAO.getCandidatesCount()));
             } else {
-                model.put("candidates", candidateDAO.sortedByPattern(sort, page));
-                model.put("pages", getPagesCount(candidateDAO.getCandidatesCount(sort)));
+                model.put(CANDIDATE_VAR, candidateDAO.sortedByPattern(sort, page));
+                model.put(PAGES_VAR, getPagesCount(candidateDAO.getCandidatesCount(sort)));
             }
-            model.put("page", page);
-            model.put("sort", sort);
+            model.put(PAGE_VAR, page);
+            model.put(SORT_VAR, sort);
             return new ModelAndView(INDEX.getAddress(), model);
         } catch (Exception e){
             return getModelError(INDEX.getAddress(), e.toString());
@@ -240,7 +247,7 @@ public class MainController {
      */
     public ModelAndView getModelError(String page, String message){
         Map<String, Object> model = new HashMap<>();
-        model.put(ERROR, message);
+        model.put(ERROR_VAR, message);
 
         return new ModelAndView(page, model);
     }

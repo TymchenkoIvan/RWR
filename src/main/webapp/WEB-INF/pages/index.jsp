@@ -3,14 +3,14 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Redwerk interview list</title>
+    <title>Interview list</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 </head>
 <body>
 <table width="80%" align="center">
     <tr>
-        <td align="left"><a title="Main page" href="../com_company/"><img src="http://redwerk.com/wp-content/themes/redwerk-nestor-child/img/redwerk_logo.png"></a></td>
+        <td align="left"><a title="Main page" href="../com_company/"><img src="https://upload.wikimedia.org/wikipedia/commons/a/a2/Example_logo.jpg"></a></td>
         <td><form class="form-inline" role="form" action="../com_company/search" method="post">
             <input type="text" class="form-control" name="pattern" placeholder="Search">
             <input type="submit" class="btn btn-default" value="Search"></form>
@@ -37,6 +37,7 @@
                     <td><c:if test="${candidate.skills.size() > 0}">${candidate.getSortedSkills().get(0)}</c:if></td>
                     <td><c:if test="${candidate.skills.size() > 1}">${candidate.skills.get(1)}</c:if></td>
                     <td><c:if test="${candidate.skills.size() > 2}">${candidate.skills.get(2)}</c:if></td>
+                    <td><c:if test="${candidate.skills.size() > 3}">${candidate.skills.get(3)}</c:if></td>
                 </tr>
             </c:forEach>
         </table>

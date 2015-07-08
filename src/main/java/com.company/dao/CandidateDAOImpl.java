@@ -1,12 +1,14 @@
 package com.company.dao;
 
 import com.company.entities.Candidate;
+import com.company.exception.MyApplicationException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.math.BigInteger;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -49,7 +51,6 @@ public class CandidateDAOImpl implements CandidateDAO {
      *
      * If one of arguments is null, or empty("") Candidate don't creates, and method will return
      * Also format.parse(interviewDate) can throw ParseException.
-     * During working with BD creates Transaction, if there arise Exception situation will be Transaction().rollback().
      * list will be updated.
      *
      * @param firstName String
@@ -58,18 +59,18 @@ public class CandidateDAOImpl implements CandidateDAO {
      * @return Candidate or null
      */
     @Override
-    public Candidate addAndGet(String firstName, String lastName, String interviewDate) throws Exception {
-        Candidate candidate;
+    public Candidate addAndGet(String firstName, String lastName, String interviewDate) throws MyApplicationException {
+        Candidate candidate = null;
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
-        Date date = format.parse(interviewDate);
-        candidate = new Candidate(firstName, lastName, date);
+        Date date = null;
         try {
+            date = format.parse(interviewDate);
+            candidate = new Candidate(firstName, lastName, date);
             entityManager.getTransaction().begin();
             entityManager.persist(candidate);
             entityManager.getTransaction().commit();
-        } catch (Exception ex) {
-            entityManager.getTransaction().rollback();
-            throw new Exception("Can not add");
+        } catch (ParseException e) {
+            throw new MyApplicationException("Can not add candidate");
         }
         return candidate;
     }
@@ -77,21 +78,19 @@ public class CandidateDAOImpl implements CandidateDAO {
     /**
      * Deletes Candidate from DB that found by id. Also will be deleted all entities that aggregated and mapped by
      * Candidate(Skill and Contact), because cascade = CascadeType.ALL.
-     * During working with BD creates Transaction, if there arise Exception situation will be Transaction().rollback().
      * list will be updated.
      *
      * @param id int Candidate.id
      */
     @Override
-    public void delete(int id) throws Exception {
+    public void delete(int id) throws MyApplicationException {
         try {
             entityManager.getTransaction().begin();
             Candidate candidate = entityManager.find(Candidate.class, id);
             entityManager.remove(candidate);
             entityManager.getTransaction().commit();
         } catch (Exception ex) {
-            entityManager.getTransaction().rollback();
-            throw new Exception("Can not delete");
+            throw new MyApplicationException("Can not delete user");
         }
     }
 

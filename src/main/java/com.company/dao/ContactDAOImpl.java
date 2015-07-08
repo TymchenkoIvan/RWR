@@ -23,7 +23,6 @@ public class ContactDAOImpl implements ContactDAO {
 
     /**
      * Creates new Contact and persist it into DB.
-     * During working with BD creates Transaction, if there arise Exception situation will be Transaction().rollback().
      * If one of arguments is null, or empty("") Candidate don't creates, and method will return
      *
      * @param candidate String
@@ -32,21 +31,16 @@ public class ContactDAOImpl implements ContactDAO {
      */
     @Override
     public void add(Candidate candidate, String description, String cont) {
-        try {
-            if (candidate == null || description == null || cont == null) {
-                return;
-            }
-            if ("".equals(description) || "".equals(cont)) {
-                return;
-            }
-            Contact contact = new Contact(candidate, description, cont);
-            entityManager.getTransaction().begin();
-            entityManager.persist(contact);
-            entityManager.getTransaction().commit();
-        } catch (Exception ex) {
-            entityManager.getTransaction().rollback();
-            ex.printStackTrace();
+        if (candidate == null || description == null || cont == null) {
+            return;
         }
+        if ("".equals(description) || "".equals(cont)) {
+            return;
+        }
+        Contact contact = new Contact(candidate, description, cont);
+        entityManager.getTransaction().begin();
+        entityManager.persist(contact);
+        entityManager.getTransaction().commit();
     }
 
     /**

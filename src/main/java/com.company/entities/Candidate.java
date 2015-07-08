@@ -10,6 +10,7 @@ public class Candidate {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name="id", nullable = false)
     private int id;
 
     @Column(name = "first_name", nullable = false)
@@ -106,8 +107,11 @@ public class Candidate {
     public String toString(){
         StringBuilder builder = new StringBuilder();
 
+        builder.append(id+" ");
         builder.append(lastName+" ");
         builder.append(firstName+" ");
+        builder.append(createDate+" ");
+        builder.append(interviewDate+" ");
         for(Skill skill: getSkills()){
             builder.append(skill.getDescription()+" ");
         }

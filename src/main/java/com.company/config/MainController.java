@@ -4,6 +4,7 @@ import com.company.dao.CandidateDAO;
 import com.company.dao.ContactDAO;
 import com.company.dao.SkillDAO;
 import com.company.entities.Candidate;
+import com.company.exception.MyApplicationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -109,29 +110,51 @@ public class MainController {
 
 
     /**
+     * GET part of PRG pattern with (value = "/delete", method = RequestMethod.POST)
+     *
+     * @return
+     */
+    @RequestMapping(value = "/deleteError", method = RequestMethod.GET)
+    public ModelAndView deleteGetError(){
+        return getModelError(INFO.getAddress(), "Wrong");
+    }
+
+
+    /**
+     * GET part of PRG pattern with (value = "/delete", method = RequestMethod.POST)
+     *
+     * @return
+     */
+    @RequestMapping(value = "/deleted", method = RequestMethod.GET)
+    public ModelAndView deleteGet(){
+        return getModel(BY_DATE.name(), 1);
+    }
+
+
+    /**
      * Deleting candidate by id from database. Also will be deleted all entities that aggregated and mapped by
      * Candidate(Skill and Contact), because cascade = CascadeType.ALL.
      * Method returns index page sorted by date with paging number 1.
      * If method will catch Exception it will return page with error message.
+     * Uses PRG pattern and redirects to (value = "/deleted", method = RequestMethod.GET) if ok
+     * Uses PRG pattern and redirects to (value = "/deleteError", method = RequestMethod.GET) if Exception
      *
      * @param id int
      * @return ModelAndView
      */
 	@RequestMapping("/delete")
-	public ModelAndView delete(@RequestParam(value="id") int id) {
+	public String deletePost(@RequestParam(value="id") int id) {
         try {
             candidateDAO.delete(id);
-        } catch (Exception e) {
-            return getModelError(INFO.getAddress(), e.toString());
+        } catch (MyApplicationException e) {
+            return "redirect:../com_company/deleteError";
         }
-
-        return getModel(BY_DATE.name(), 1);
+        return "redirect:../com_company/deleted";
 	}
 
 
     /**
      * Method redirects to page where user can find all info about candidate by his id.
-     * If method will catch Exception it will return page with error message.
      *
      * @param id int
      * @return ModelAndView
@@ -139,38 +162,58 @@ public class MainController {
     @RequestMapping("/candidateInfo")
     public ModelAndView info(@RequestParam(value="id") int id) {
         Map<String, Object> model = new HashMap<>();
-        try {
-            model.put(CANDIDATE_VAR, candidateDAO.getById(id));
-        } catch (Exception e){
-            return getModelError(INFO.getAddress(), e.toString());
-        }
+        model.put(CANDIDATE_VAR, candidateDAO.getById(id));
         return new ModelAndView(INFO.getAddress(), model);
+    }
+
+
+    /**
+     * GET part of PRG pattern with (value = "/addCandidate", method = RequestMethod.POST)
+     *
+     * @return ModelAndView
+     */
+    @RequestMapping(value = "/addCandidate", method = RequestMethod.GET)
+    public ModelAndView addCandidateGet(){
+        return getModel(BY_DATE.name(), 1);
+    }
+
+    /**
+     * GET part of PRG pattern with (value = "/addCandidate", method = RequestMethod.POST)
+     * It will be redirected if mail is wrong.
+     *
+     * @return ModelAndView
+     */
+    @RequestMapping(value = "/addCandidateMailError", method = RequestMethod.GET)
+    public ModelAndView addCandidateGetMailError(){
+        return getModelError(ADD.getAddress(), "Wrong mail");
     }
 
 
     /**
      * This method add all information about new candidate from huge form.
      * If method can not create new candidate or add his mail will return this page(..add.jsp) with error message.
+     * Uses PRG pattern and redirects to (value = "/addCandidate", method = RequestMethod.GET)
+     * If mail wrong will be redirected to "/addCandidateMailError".
      *
      * All contacts(excepts MAIL) and skills can be empty.
      *
      * @param params Map <String,String>
-     * @return ModelAndView
+     * @return redirect to GET
      */
     @RequestMapping(value = "/addCandidate", method = RequestMethod.POST)
-    public ModelAndView addCandidate(@RequestParam Map<String,String> params){
+    public String addCandidatePost(@RequestParam Map<String,String> params){
         // adding user and mandatory contacts
-        Candidate c;
+        Candidate c = null;
         try {
             c = candidateDAO.addAndGet(params.get("firstName"), params.get("lastName"), params.get("interviewDate"));
             if(contactDAO.isMailReal(params.get(CONTACT_MAIL_PATTERN))) {
                 contactDAO.add(c, CONTACT_MAIL_PATTERN, params.get(CONTACT_MAIL_PATTERN));
             } else {
                 candidateDAO.delete(c.getId());
-                throw new IllegalStateException("Wrong mail");
+                throw new MyApplicationException();
             }
-        } catch (Exception e) {
-            return getModelError(ADD.getAddress(), e.toString());
+        } catch (MyApplicationException e) {
+            return "redirect:../com_company/addCandidateMailError";
         }
         // adding not mandatory contacts
         for(int i=1; i<=MAX_CONTACTS; i++){
@@ -188,8 +231,7 @@ public class MainController {
                 skillDAO.add(c, params.get(skill), params.get(rate));
             }
         }
-
-        return getModel(BY_DATE.name(), 1);
+        return "redirect:../com_company/addCandidate";
     }
 
     /**
@@ -209,31 +251,26 @@ public class MainController {
      * Method with main model logic of index page.
      * Method try to find type of sort, and page number to return.
      * ModelAndView contains sorted candidates List, pages amount, number of page and sort type for var in index page.
-     * If exception happens method will return index page with exception message using getModelError().
      *
      * @param sort Spring shows type of sorting
      * @param page int
      * @return ModelAndView
      */
     public ModelAndView getModel(String sort, int page){
-        try {
-            Map<String, Object> model = new HashMap<>();
-            if (BY_NAME.name().equals(sort)) {
-                model.put(CANDIDATE_VAR, candidateDAO.sortedByName(page));
-                model.put(PAGES_VAR, getPagesCount(candidateDAO.getCandidatesCount()));
-            } else if (BY_DATE.name().equals(sort)) {
-                model.put(CANDIDATE_VAR, candidateDAO.sortedByDate(page));
-                model.put(PAGES_VAR, getPagesCount(candidateDAO.getCandidatesCount()));
-            } else {
-                model.put(CANDIDATE_VAR, candidateDAO.sortedByPattern(sort, page));
-                model.put(PAGES_VAR, getPagesCount(candidateDAO.getCandidatesCount(sort)));
-            }
-            model.put(PAGE_VAR, page);
-            model.put(SORT_VAR, sort);
-            return new ModelAndView(INDEX.getAddress(), model);
-        } catch (Exception e){
-            return getModelError(INDEX.getAddress(), e.toString());
+        Map<String, Object> model = new HashMap<>();
+        if (BY_NAME.name().equals(sort)) {
+            model.put(CANDIDATE_VAR, candidateDAO.sortedByName(page));
+            model.put(PAGES_VAR, getPagesCount(candidateDAO.getCandidatesCount()));
+        } else if (BY_DATE.name().equals(sort)) {
+            model.put(CANDIDATE_VAR, candidateDAO.sortedByDate(page));
+            model.put(PAGES_VAR, getPagesCount(candidateDAO.getCandidatesCount()));
+        } else {
+            model.put(CANDIDATE_VAR, candidateDAO.sortedByPattern(sort, page));
+            model.put(PAGES_VAR, getPagesCount(candidateDAO.getCandidatesCount(sort)));
         }
+        model.put(PAGE_VAR, page);
+        model.put(SORT_VAR, sort);
+        return new ModelAndView(INDEX.getAddress(), model);
     }
 
 

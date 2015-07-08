@@ -2,14 +2,14 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>New Redwerk candidate</title>
+    <title>New candidate</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 </head>
 
 <table width="80%" align="center">
     <tr>
-        <td align="left"><a title="Main page" href="../com_company/"><img src="http://redwerk.com/wp-content/themes/redwerk-nestor-child/img/redwerk_logo.png"></a></td>
+        <td align="left"><a title="Main page" href="../com_company/"><img src="https://upload.wikimedia.org/wikipedia/commons/a/a2/Example_logo.jpg"></a></td>
     </tr>
 </table>
 <hr>

@@ -5,6 +5,7 @@ import com.company.dao.ContactDAO;
 import com.company.dao.SkillDAO;
 import com.company.entities.Candidate;
 import com.company.exception.MyApplicationException;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +23,8 @@ import static com.company.enums.Sort.BY_NAME;
 @Controller
 @RequestMapping("/com_company")
 public class MainController {
+
+    private static Logger logger = Logger.getLogger(MainController.class);
 
     @Autowired
     private CandidateDAO candidateDAO;
@@ -56,8 +59,9 @@ public class MainController {
      *
      * @return ModelAndView
      */
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @RequestMapping("/")
     public ModelAndView candidatesList() {
+        logger.info("main page");
         return getModel(BY_DATE.name(), 1);
     }
 
@@ -270,6 +274,7 @@ public class MainController {
         }
         model.put(PAGE_VAR, page);
         model.put(SORT_VAR, sort);
+        logger.info("model built SUCCESSFULLY");
         return new ModelAndView(INDEX.getAddress(), model);
     }
 

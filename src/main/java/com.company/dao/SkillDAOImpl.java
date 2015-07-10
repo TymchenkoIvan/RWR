@@ -2,6 +2,7 @@ package com.company.dao;
 
 import com.company.entities.Candidate;
 import com.company.entities.Skill;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.EntityManager;
@@ -18,6 +19,8 @@ public class SkillDAOImpl implements SkillDAO{
 
     @Autowired
     private EntityManager entityManager;
+
+    private static final Logger logger = Logger.getLogger(SkillDAOImpl.class);
 
     /**
      * Creates new Skill and persist it into DB.
@@ -39,9 +42,11 @@ public class SkillDAOImpl implements SkillDAO{
         if(Integer.parseInt(rate)<0 || Integer.parseInt(rate)>10){
             return;
         }
+        logger.info("tries to create new skill for "+candidate.getId());
         Skill skill = new Skill(candidate, description, Integer.parseInt(rate));
         entityManager.getTransaction().begin();
         entityManager.persist(skill);
         entityManager.getTransaction().commit();
+        logger.info("new skill added");
     }
 }

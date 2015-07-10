@@ -9,14 +9,14 @@
 
 <table width="80%" align="center">
     <tr>
-        <td align="left"><a title="Main page" href="../com_company/"><img src="https://upload.wikimedia.org/wikipedia/commons/a/a2/Example_logo.jpg"></a></td>
+        <td align="left"><a title="Main page" href="../"><img src="https://upload.wikimedia.org/wikipedia/commons/a/a2/Example_logo.jpg"></a></td>
     </tr>
 </table>
 <hr>
 <body>
     <div class="container">
         <p align="center" style="color:rgba(134, 3, 1, 0.73); font-size:15px">${error}</p>
-        <form role="form"  class="form-horizontal" action="../com_company/addCandidate" method="post">
+        <form role="form"  class="form-horizontal" action="../addCandidate" method="post">
             <table width="400px" align="center">
                 <thead><tr><th colspan="2"><center><h3><b>New candidate:</b></h3></center></th></tr></thead>
                 <tr>

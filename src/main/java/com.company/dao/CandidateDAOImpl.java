@@ -2,6 +2,7 @@ package com.company.dao;
 
 import com.company.entities.Candidate;
 import com.company.exception.MyApplicationException;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.EntityManager;
@@ -33,6 +34,8 @@ public class CandidateDAOImpl implements CandidateDAO {
     @Autowired
     private EntityManager entityManager;
 
+    private static final Logger logger = Logger.getLogger(CandidateDAOImpl.class);
+
 
     /**
      * Returns Candidate by id, using entityManager
@@ -42,6 +45,7 @@ public class CandidateDAOImpl implements CandidateDAO {
      */
     @Override
     public Candidate getById(int id) {
+        logger.info("returns Candidate by id "+id);
         return entityManager.find(Candidate.class, id);
     }
 
@@ -63,13 +67,16 @@ public class CandidateDAOImpl implements CandidateDAO {
         Candidate candidate = null;
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
         Date date = null;
+        logger.info("tries to add new Candidate: " + firstName+" "+lastName+" "+interviewDate);
         try {
             date = format.parse(interviewDate);
             candidate = new Candidate(firstName, lastName, date);
             entityManager.getTransaction().begin();
             entityManager.persist(candidate);
             entityManager.getTransaction().commit();
+            logger.info("new Candidate added");
         } catch (ParseException e) {
+            logger.info("cant add new candidate", e);
             throw new MyApplicationException("Can not add candidate");
         }
         return candidate;
@@ -85,11 +92,14 @@ public class CandidateDAOImpl implements CandidateDAO {
     @Override
     public void delete(int id) throws MyApplicationException {
         try {
+            logger.info("tries to find and delete Candidate by id "+id);
             entityManager.getTransaction().begin();
             Candidate candidate = entityManager.find(Candidate.class, id);
             entityManager.remove(candidate);
             entityManager.getTransaction().commit();
-        } catch (Exception ex) {
+            logger.info("Candidate deleted");
+        } catch (Exception e) {
+            logger.info("cant delete candidate", e);
             throw new MyApplicationException("Can not delete user");
         }
     }
@@ -103,6 +113,7 @@ public class CandidateDAOImpl implements CandidateDAO {
     @Override
     public int getCandidatesCount() {
         Query query = entityManager.createNativeQuery("SELECT count(*) FROM Candidates");
+        logger.info("locking for Candidates count");
         return ((BigInteger) query.getSingleResult()).intValue();
     }
 
@@ -116,6 +127,7 @@ public class CandidateDAOImpl implements CandidateDAO {
      */
     @Override
     public int getCandidatesCount(String pattern) {
+        logger.info("locking for Candidates count by pattern" + pattern);
         Query query = entityManager.createNativeQuery(
                 "SELECT count(*) " +
                         "FROM candidates " +
@@ -133,6 +145,7 @@ public class CandidateDAOImpl implements CandidateDAO {
      */
     @Override
     public List<Candidate> sortedByDate(int page) {
+        logger.info("locking for Candidates by candidate.interview_date, page: " + page);
         Query query = entityManager.createNativeQuery(
                 "SElECT * " +
                         "FROM candidates " +
@@ -150,6 +163,7 @@ public class CandidateDAOImpl implements CandidateDAO {
      */
     @Override
     public List<Candidate> sortedByName(int page) {
+        logger.info("locking for Candidates by candidate.last_name, page: " + page);
         Query query = entityManager.createNativeQuery(
                 "SElECT * " +
                         "FROM candidates " +
@@ -169,6 +183,7 @@ public class CandidateDAOImpl implements CandidateDAO {
      */
     @Override
     public List<Candidate> sortedByPattern(String pattern, int page) {
+        logger.info("locking for Candidates by pattern, page: " + page);
         Query query = entityManager.createNativeQuery(
                 "SELECT * " +
                         "FROM candidates " +

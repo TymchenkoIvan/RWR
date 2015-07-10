@@ -1,5 +1,6 @@
 package com.company.dao;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.company.entities.Candidate;
 import com.company.entities.Contact;
@@ -21,6 +22,8 @@ public class ContactDAOImpl implements ContactDAO {
     @Autowired
     private EntityManager entityManager;
 
+    private static final Logger logger = Logger.getLogger(CandidateDAOImpl.class);
+
     /**
      * Creates new Contact and persist it into DB.
      * If one of arguments is null, or empty("") Candidate don't creates, and method will return
@@ -37,10 +40,13 @@ public class ContactDAOImpl implements ContactDAO {
         if ("".equals(description) || "".equals(cont)) {
             return;
         }
+
+        logger.info("tries to create new contact for "+candidate.getId());
         Contact contact = new Contact(candidate, description, cont);
         entityManager.getTransaction().begin();
         entityManager.persist(contact);
         entityManager.getTransaction().commit();
+        logger.info("new contact added");
     }
 
     /**
@@ -51,9 +57,11 @@ public class ContactDAOImpl implements ContactDAO {
      */
     @Override
     public boolean isMailReal(String mail) {
+        logger.info("checks is mail real: "+mail);
         Pattern pattern = Pattern.compile(EMAIL_PATTERN);
         Matcher matcher = pattern.matcher(mail);
-
-        return matcher.matches();
+        boolean flag = matcher.matches();
+        logger.info("mail real: "+flag);
+        return flag;
     }
 }

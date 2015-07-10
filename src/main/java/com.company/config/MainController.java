@@ -21,10 +21,8 @@ import static com.company.enums.Sort.BY_DATE;
 import static com.company.enums.Sort.BY_NAME;
 
 @Controller
-@RequestMapping("/com_company")
+@RequestMapping("/")
 public class MainController {
-
-    private static Logger logger = Logger.getLogger(MainController.class);
 
     @Autowired
     private CandidateDAO candidateDAO;
@@ -34,6 +32,8 @@ public class MainController {
 
     @Autowired
     private SkillDAO skillDAO;
+
+    private static final Logger logger = Logger.getLogger(MainController.class);
 
     //vars user in form
     public static final String SKILL_PARAM_PATTERN = "skill_";
@@ -50,7 +50,7 @@ public class MainController {
     //important settings used in GUI
     public static final int MAX_SKILLS = 10;
     public static final int MAX_CONTACTS = 4;
-    public static final int MAX_CANDIDATES_ON_PAGE = 5;
+    public static final int MAX_CANDIDATES_ON_PAGE = 10;
 
 
     /**
@@ -61,7 +61,7 @@ public class MainController {
      */
     @RequestMapping("/")
     public ModelAndView candidatesList() {
-        logger.info("main page");
+        logger.info("request:/");
         return getModel(BY_DATE.name(), 1);
     }
 
@@ -74,6 +74,7 @@ public class MainController {
     @RequestMapping(value = "/paging", method = RequestMethod.GET)
     public ModelAndView paging(@RequestParam(value=PAGE_VAR) int page,
                                @RequestParam(value=SORT_VAR) String sort) {
+        logger.info("request:/paging");
         return getModel(sort, page);
     }
 
@@ -85,7 +86,7 @@ public class MainController {
      */
     @RequestMapping("/sortByName")
     public ModelAndView candidatesListByName() {
-
+        logger.info("request:/sortByName");
         return getModel(BY_NAME.name(), 1);
     }
 
@@ -97,6 +98,7 @@ public class MainController {
      */
     @RequestMapping("/add")
     public ModelAndView add() {
+        logger.info("request:/add");
         return new ModelAndView (ADD.getAddress());
     }
 
@@ -109,6 +111,7 @@ public class MainController {
      */
 	@RequestMapping(value = "/search", method = RequestMethod.POST)
 	public ModelAndView search(@RequestParam(value="pattern") String pattern) {
+        logger.info("request:/search");
         return getModel(pattern, 1);
 	}
 
@@ -120,6 +123,7 @@ public class MainController {
      */
     @RequestMapping(value = "/deleteError", method = RequestMethod.GET)
     public ModelAndView deleteGetError(){
+        logger.info("request:/deleteError");
         return getModelError(INFO.getAddress(), "Wrong");
     }
 
@@ -131,6 +135,7 @@ public class MainController {
      */
     @RequestMapping(value = "/deleted", method = RequestMethod.GET)
     public ModelAndView deleteGet(){
+        logger.info("request:/deleted");
         return getModel(BY_DATE.name(), 1);
     }
 
@@ -148,12 +153,15 @@ public class MainController {
      */
 	@RequestMapping("/delete")
 	public String deletePost(@RequestParam(value="id") int id) {
+        logger.info("request:/delete");
         try {
             candidateDAO.delete(id);
+            logger.info("user deleted" +id);
         } catch (MyApplicationException e) {
-            return "redirect:../com_company/deleteError";
+            logger.error("can't delete user" +id);
+            return "redirect:/deleteError";
         }
-        return "redirect:../com_company/deleted";
+        return "redirect:/deleted";
 	}
 
 
@@ -165,6 +173,7 @@ public class MainController {
      */
     @RequestMapping("/candidateInfo")
     public ModelAndView info(@RequestParam(value="id") int id) {
+        logger.info("request:/candidateInfo" + id);
         Map<String, Object> model = new HashMap<>();
         model.put(CANDIDATE_VAR, candidateDAO.getById(id));
         return new ModelAndView(INFO.getAddress(), model);
@@ -178,6 +187,7 @@ public class MainController {
      */
     @RequestMapping(value = "/addCandidate", method = RequestMethod.GET)
     public ModelAndView addCandidateGet(){
+        logger.info("request:/addCandidate");
         return getModel(BY_DATE.name(), 1);
     }
 
@@ -189,6 +199,7 @@ public class MainController {
      */
     @RequestMapping(value = "/addCandidateMailError", method = RequestMethod.GET)
     public ModelAndView addCandidateGetMailError(){
+        logger.info("request:/addCandidateMailError");
         return getModelError(ADD.getAddress(), "Wrong mail");
     }
 
@@ -211,15 +222,19 @@ public class MainController {
         try {
             c = candidateDAO.addAndGet(params.get("firstName"), params.get("lastName"), params.get("interviewDate"));
             if(contactDAO.isMailReal(params.get(CONTACT_MAIL_PATTERN))) {
+                logger.info("tries to create new candidate");
                 contactDAO.add(c, CONTACT_MAIL_PATTERN, params.get(CONTACT_MAIL_PATTERN));
             } else {
+                logger.info("tries to delete candidate, because mail is wrong");
                 candidateDAO.delete(c.getId());
                 throw new MyApplicationException();
             }
         } catch (MyApplicationException e) {
-            return "redirect:../com_company/addCandidateMailError";
+            logger.error("can't create new candidate", e);
+            return "redirect:/addCandidateMailError";
         }
         // adding not mandatory contacts
+        logger.info("contacts adding");
         for(int i=1; i<=MAX_CONTACTS; i++){
             String type = CONTACT_TYPE_PATTERN + i;
             String value = CONTACT_VALUE_PATTERN+ i;
@@ -228,6 +243,7 @@ public class MainController {
             }
         }
         // adding skills
+        logger.info("skills adding");
         for(int i=1; i<=MAX_SKILLS; i++){
             String skill = SKILL_PARAM_PATTERN + i;
             String rate = SKILL_RATE_PATTERN + i;
@@ -235,7 +251,7 @@ public class MainController {
                 skillDAO.add(c, params.get(skill), params.get(rate));
             }
         }
-        return "redirect:../com_company/addCandidate";
+        return "redirect:/addCandidate";
     }
 
     /**
@@ -290,7 +306,7 @@ public class MainController {
     public ModelAndView getModelError(String page, String message){
         Map<String, Object> model = new HashMap<>();
         model.put(ERROR_VAR, message);
-
+        logger.info("ERROR model built SUCCESSFULLY");
         return new ModelAndView(page, model);
     }
 }

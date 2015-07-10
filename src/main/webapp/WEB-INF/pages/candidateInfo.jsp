@@ -10,8 +10,8 @@
 <body>
 <table width="80%" align="center">
     <tr>
-        <td align="left"><a title="Main page" href="../com_company/"><img src="https://upload.wikimedia.org/wikipedia/commons/a/a2/Example_logo.jpg"></a></td>
-        <td align="right"><a title="Delete this candidate" href="../com_company/delete?id=${candidates.id}"><img src="http://a.dryicons.com/images/icon_sets/grungy_aesthetica_icons_set/png/128x128/user_remove.png" width="64"></a></td>
+        <td align="left"><a title="Main page" href="../"><img src="https://upload.wikimedia.org/wikipedia/commons/a/a2/Example_logo.jpg"></a></td>
+        <td align="right"><a title="Delete this candidate" href="../delete?id=${candidates.id}"><img src="http://a.dryicons.com/images/icon_sets/grungy_aesthetica_icons_set/png/128x128/user_remove.png" width="64"></a></td>
     </tr>
 </table>
 <hr>
